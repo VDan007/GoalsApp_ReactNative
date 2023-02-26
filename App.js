@@ -1,5 +1,9 @@
 import { useState } from "react";
 import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
+import { nanoid } from 'nanoid';
+import 'react-native-url-polyfill/auto';
+import 'react-native-get-random-values';
+
 
 export default function App() {
 
@@ -14,9 +18,15 @@ export default function App() {
     setGoalsList(prev=>{
       return [...prev,enteredGoalText];
     });
-    
+    setEnteredGoalText("");
   };
-  console.log(goalsList);
+  
+  const goalListToRender = goalsList.map(
+    item => {
+      return <Text key={nanoid()}>{item}</Text>
+    }
+  );
+
   return (
     <View style={styles.appContainer}>
       <View
@@ -26,6 +36,7 @@ export default function App() {
           style={styles.textInput}
           placeholder="Your Goal"
           onChangeText={goalInputHandler}
+          value={enteredGoalText}
           />
 
         <Button title="Add Goal" onPress={addGoalHandler}/>
@@ -34,7 +45,7 @@ export default function App() {
       <View
         style={styles.goalsContainer}
       >
-        <Text>List of Goals</Text>
+        {goalListToRender}
       </View>
 
 
