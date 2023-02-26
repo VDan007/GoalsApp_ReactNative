@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
-import { nanoid } from 'nanoid';
-import 'react-native-url-polyfill/auto';
-import 'react-native-get-random-values';
+
 
 
 export default function App() {
@@ -23,7 +21,7 @@ export default function App() {
   
   const goalListToRender = goalsList.map(
     item => {
-      return <Text key={nanoid()}>{item}</Text>
+      return <Text key={item+Math.random()*100}>{item}</Text>
     }
   );
 
