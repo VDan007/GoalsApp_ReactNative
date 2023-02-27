@@ -2,7 +2,9 @@ import { useState } from "react";
 import { 
   StyleSheet,
   View,
-  FlatList } from 'react-native';
+  FlatList,
+  Button } from 'react-native';
+import { StatusBar } from "expo-status-bar";  
 
 import GoalItem from "./components/GoalItem";
 import GoalInput from "./components/GoalInput";
@@ -13,12 +15,19 @@ export default function App() {
 
   
   const [goalsList,setGoalsList] = useState([]);
+  const [modalIsVisible, setModalIsVisible] = useState(false);
+
+
+  function toggleGoalAdd(){
+    setModalIsVisible(prev=>!prev);
+  }
+
 
   function addGoalHandler(enteredGoalText){
     setGoalsList(prev=>{
       return [...prev,{text: enteredGoalText, key: (Math.random() * 100).toString()} ];
     });
-    
+    toggleGoalAdd();
   };
 
   function deleteGoalHandler(id){
@@ -35,25 +44,36 @@ export default function App() {
   
 
   return (
-    <View style={styles.appContainer}>
-
-      <GoalInput onAddGoal={addGoalHandler} />
-     
-
-      <View
-         style={styles.goalsContainer}
-      >
-        <FlatList 
-          data={goalsList} 
-          renderItem={(itemData) =>{ 
-            return <GoalItem onDeleteItem={deleteGoalHandler} key={itemData.item.key} id={itemData.item.key} text={itemData.item.text}/>;
-          }}
+    <>
+      <StatusBar style="light"/>
+      <View style={styles.appContainer}>
+        <Button 
+          title="Add New Goal" 
+          color="#a065ec"
+          onPress={toggleGoalAdd}
         />
-      </View>
+      <GoalInput 
+        onAddGoal={addGoalHandler}
+        modalIsVisible={modalIsVisible}
+        toggle = {toggleGoalAdd}
+      />
       
 
+        <View
+          style={styles.goalsContainer}
+        >
+          <FlatList 
+            data={goalsList} 
+            renderItem={(itemData) =>{ 
+              return <GoalItem onDeleteItem={deleteGoalHandler} key={itemData.item.key} id={itemData.item.key} text={itemData.item.text}/>;
+            }}
+          />
+        </View>
+        
 
-    </View>
+
+      </View>
+    </>
   );
 }
 
@@ -62,6 +82,7 @@ const styles = StyleSheet.create({
     paddingTop: 50,
     paddingHorizontal: 16,
     flex:1,
+    backgroundColor: "#1e085a",
     
   },
   

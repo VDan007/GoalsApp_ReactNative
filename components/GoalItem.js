@@ -8,7 +8,11 @@ function GoalItem(props){
     }
 
     return(
-      <Pressable onPress={deleteI}>
+      <Pressable 
+         
+        onPress={deleteI}
+        style={(pressData)=>pressData.pressed && styles.pressedItem}
+      >
          <View style={styles.goalItem}>
             <Text style={styles.goalText}>{props.text}</Text>
         </View>
@@ -26,7 +30,11 @@ const styles = StyleSheet.create({
         borderRadius: 6,
         backgroundColor: "#5e0acc",
       },
-      goalText: {
+    goalText: {
         color: "white",
-      }
+      },
+    pressedItem: {
+      opacity: 0.5,
+    },
+
 });
